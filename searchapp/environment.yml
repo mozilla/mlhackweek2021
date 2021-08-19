@@ -6,4 +6,5 @@ dependencies:
   - Django
   - bs4
   - requests
+  - django-environ
 
