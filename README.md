@@ -1,13 +1,13 @@
 # mlhackweek2021
 
-##Search App
+## Search App
 The intent is to collect search data and train a ranking model.
 
-##Install and Run
+## Install and Run
 To run the application:
-- `cd ./searchapp`
-- Run `conda env create -f environment.yml`
-- Run `conda activate  hackweek`
-- Run `python manage.py makemigrations`
-- Run `python manage.py migrate`
-- Run `python manage.py runserver`
+1. `cd ./searchapp`
+2. Run `conda env create -f environment.yml`
+3. Run `conda activate  hackweek`
+4. Run `python manage.py makemigrations`
+5. Run `python manage.py migrate`
+6. Run `python manage.py runserver`
