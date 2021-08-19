@@ -13,3 +13,4 @@ To run the application:
 6. Run `python manage.py makemigrations`
 7. Run `python manage.py migrate`
 8. Run `python manage.py runserver`
+9. Go to http://127.0.0.1:8000/ to use the app.
