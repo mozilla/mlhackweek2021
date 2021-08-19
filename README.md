@@ -8,6 +8,7 @@ To run the application:
 1. `cd ./searchapp`
 2. Run `conda env create -f environment.yml`
 3. Run `conda activate  hackweek`
-4. Run `python manage.py makemigrations`
-5. Run `python manage.py migrate`
-6. Run `python manage.py runserver`
+4. `cd mysite`
+5. Run `python manage.py makemigrations`
+6. Run `python manage.py migrate`
+7. Run `python manage.py runserver`
