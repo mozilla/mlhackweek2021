@@ -7,4 +7,6 @@ dependencies:
   - bs4
   - requests
   - django-environ
+  - pip:
+      - glean-sdk
 

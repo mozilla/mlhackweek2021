@@ -5,6 +5,8 @@ from bs4 import BeautifulSoup
 from uuid import uuid4
 import random
 
+from . import metrics, pings
+
 
 def index(request):
     return render(request, 'searchranking/index.html')
@@ -31,12 +33,13 @@ def parse_results(soup):
         href = info.parent.get('href', None)
         if href is not None:
             href = href.strip('/url?q=')
-            divs = info.parent.parent.find_next_sibling("div").find("div")
             short_desc = ''
-            if divs:
-                spans = divs.find_all("span")
-                for span in spans:
-                    short_desc += span.text
+            if info.parent.parent.find_next_sibling("div"):
+                divs = info.parent.parent.find_next_sibling("div").find("div")
+                if divs:
+                    spans = divs.find_all("span")
+                    for span in spans:
+                        short_desc += span.text
             result.append(SearchResult(title, href, short_desc))
     return result
 
@@ -104,8 +107,11 @@ def build_session_data(url, engine, title, position):
 
 
 def go_to_selection(request):
-    # TODO GLE Need to do the Glean work here.
     result_id = request.POST.get('result_id', None)
     session_data = request.session.get(result_id)
-    print(f"Selected position: {session_data.get('position')}")
-    return redirect(request.session.get(result_id).get('url'))
+
+    metrics.search.selected.set(session_data.get('position'))
+    metrics.search.search_result.set(session_data.get('url'))
+    pings.custom.submit()
+
+    return redirect(session_data.get('url'))
