@@ -16,14 +16,12 @@ $schema: moz://mozilla.org/schemas/glean/metrics/2-0-0
 
 # Category
 search:
-  # Name
-  selected:
-    # Metric Parameters
-    type: quantity
+  search_engine:
+    type: string
     send_in_pings:
       - custom
     description: |
-      Selected position
+      Submitted search term
     notification_emails:
       - gleonard@mozilla.com
     bugs:
@@ -31,9 +29,33 @@ search:
     data_reviews:
       - http://example.com/path/to/data-review
     expires: never
-    unit: position
-
-  search_result:
+  search_text:
+    type: string
+    send_in_pings:
+      - custom
+    description: |
+      Submitted search term
+    notification_emails:
+      - gleonard@mozilla.com
+    bugs:
+      - https://example/123456789/
+    data_reviews:
+      - http://example.com/path/to/data-review
+    expires: never
+  session_id:
+    type: string
+    send_in_pings:
+      - custom
+    description: |
+      Session id
+    notification_emails:
+      - gleonard@mozilla.com
+    bugs:
+      - https://example/123456789/
+    data_reviews:
+      - http://example.com/path/to/data-review
+    expires: never
+  url:
     type: string
     send_in_pings:
       - custom
@@ -46,3 +68,82 @@ search:
     data_reviews:
       - http://example.com/path/to/data-review
     expires: never
+  hostname:
+    type: string
+    send_in_pings:
+      - custom
+    description: |
+      Hostname (domain) of selected search result
+    notification_emails:
+      - gleonard@mozilla.com
+    bugs:
+      - https://example/123456789/
+    data_reviews:
+      - http://example.com/path/to/data-review
+    expires: never
+  title:
+    type: string
+    send_in_pings:
+      - custom
+    description: |
+      Search result title
+    notification_emails:
+      - gleonard@mozilla.com
+    bugs:
+      - https://example/123456789/
+    data_reviews:
+      - http://example.com/path/to/data-review
+    expires: never
+  short_description:
+    type: string
+    send_in_pings:
+      - custom
+    description: |
+      Initial text of search result
+    notification_emails:
+      - gleonard@mozilla.com
+    bugs:
+      - https://example/123456789/
+    data_reviews:
+      - http://example.com/path/to/data-review
+    expires: never
+  preamble:
+    type: string
+    send_in_pings:
+      - custom
+    description: |
+      Leading text of result (e.g. 'x days ago', '1 of 20')
+    notification_emails:
+      - gleonard@mozilla.com
+    bugs:
+      - https://example/123456789/
+    data_reviews:
+      - http://example.com/path/to/data-review
+    expires: never
+  selected:
+    type: boolean
+    send_in_pings:
+      - custom
+    description: |
+      Indicates whether the URL was selected by user
+    notification_emails:
+      - gleonard@mozilla.com
+    bugs:
+      - https://example/123456789/
+    data_reviews:
+      - http://example.com/path/to/data-review
+    expires: never
+  position:
+    type: quantity
+    send_in_pings:
+      - custom
+    description: |
+      Position in list of selected link
+    notification_emails:
+      - gleonard@mozilla.com
+    bugs:
+      - https://example/123456789/
+    data_reviews:
+      - http://example.com/path/to/data-review
+    expires: never
+    unit: position in list

@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from uuid import uuid4
 import random
+from urllib.parse import urlparse
 
 from . import metrics, pings
 
@@ -17,10 +18,14 @@ def exclude_sections(sections_to_exclude):
 
 
 class SearchResult():
-    def __init__(self, title, url, short_desc):
-        self.title = title.strip()
+    def __init__(self, url, hostname, title, short_desc, preamble, selected, position):
         self.url = url.strip()
+        self.hostname = hostname
+        self.title = title.strip()
         self.short_desc = short_desc.strip()
+        self.preamble = None if preamble is None else preamble.strip()
+        self.selected = selected
+        self.position = position
 
 
 def parse_results(soup):
@@ -32,15 +37,21 @@ def parse_results(soup):
         title = info.getText()
         href = info.parent.get('href', None)
         if href is not None:
-            href = href.strip('/url?q=')
+            href = href.replace('/url?q=', '')
+            hostname = urlparse(href).netloc
             short_desc = ''
+            preamble = None
             if info.parent.parent.find_next_sibling("div"):
                 divs = info.parent.parent.find_next_sibling("div").find("div")
                 if divs:
                     spans = divs.find_all("span")
                     for span in spans:
+                        if preamble is None:  # preamble is the first span
+                            preamble = span.text
                         short_desc += span.text
-            result.append(SearchResult(title, href, short_desc))
+            result.append(
+                SearchResult(url=href, hostname=hostname, title=title, short_desc=short_desc, preamble=preamble,
+                             selected=True, position=len(result) + 1))
     return result
 
 
@@ -69,13 +80,14 @@ def results(request):
         return render(request, 'searchranking/index.html', context)
 
     search_results = execute_query(search_text)
-    random.shuffle(search_results)
+    # TODO GLE is shuffle needed.  If shuffled will need to reset position field
+    # random.shuffle(search_results)
     results_context = []
     position = 0
     for search_result in search_results:
         uuid = str(uuid4().hex)
         position += 1
-        session_data = build_session_data(search_result.url, "Google", search_result.title, position)
+        session_data = build_session_data(search_result, "Google", search_text)
         request.session[uuid] = session_data
 
         result_context = {
@@ -97,12 +109,16 @@ def generate_form_name(uuid):
     return res
 
 
-def build_session_data(url, engine, title, position):
+def build_session_data(search_result, engine, search_text):
     return {
-        'url': url,
+        'search_text': search_text,
         'engine': engine,
-        'title': title,
-        'position': position
+        'url': search_result.url,
+        'hostname': search_result.hostname,
+        'title': search_result.title,
+        'short_desc': search_result.short_desc,
+        'preamble': search_result.preamble,
+        'position': search_result.position
     }
 
 
@@ -110,8 +126,15 @@ def go_to_selection(request):
     result_id = request.POST.get('result_id', None)
     session_data = request.session.get(result_id)
 
-    metrics.search.selected.set(session_data.get('position'))
-    metrics.search.search_result.set(session_data.get('url'))
+    metrics.search.search_engine.set(session_data.get('engine'))
+    metrics.search.search_text.set(session_data.get('search_text'))
+    metrics.search.session_id.set(request.session.session_key)
+    metrics.search.url.set(session_data.get('url'))
+    metrics.search.hostname.set(session_data.get('hostname'))
+    metrics.search.title.set(session_data.get('title'))
+    metrics.search.short_description.set(session_data.get('short_desc'))
+    metrics.search.preamble.set(session_data.get('preamble'))
+    metrics.search.position.set(session_data.get('position'))
+    metrics.search.selected.set(True)
     pings.custom.submit()
-
     return redirect(session_data.get('url'))
