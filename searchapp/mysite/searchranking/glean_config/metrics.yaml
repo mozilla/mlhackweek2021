@@ -161,3 +161,16 @@ search:
       - http://example.com/path/to/data-review
     expires: never
     unit: position in list
+  timespan_since_previous_link:
+    type: timespan
+    send_in_pings:
+      - custom
+    description: |
+      Timespan between user selecting this URL and previous selection.  First selection contains no data for this field.
+    notification_emails:
+      - gleonard@mozilla.com
+    bugs:
+      - https://example/123456789/
+    data_reviews:
+      - http://example.com/path/to/data-review
+    expires: never

@@ -100,6 +100,7 @@ def results(request):
         }
         results_context.append(result_context)
     context = {"results": results_context}
+    metrics.search.timespan_since_previous_link.cancel()
     return render(request, 'searchranking/results.html', context)
 
 
@@ -124,6 +125,7 @@ def build_session_data(search_result, engine, search_text):
 
 
 def go_to_selection(request):
+    metrics.search.timespan_since_previous_link.stop()
     result_id = request.POST.get('result_id', None)
     session_data = request.session.get(result_id)
 
@@ -139,4 +141,5 @@ def go_to_selection(request):
     metrics.search.selected.set(True)
     metrics.search.url_select_timestamp.set(datetime.utcnow())
     pings.custom.submit()
+    metrics.search.timespan_since_previous_link.start()
     return redirect(session_data.get('url'))
