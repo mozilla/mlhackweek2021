@@ -68,6 +68,20 @@ search:
     data_reviews:
       - http://example.com/path/to/data-review
     expires: never
+  url_select_timestamp:
+    type: datetime
+    send_in_pings:
+      - custom
+    description: |
+      Timestamp when user selected result
+    notification_emails:
+      - gleonard@mozilla.com
+    bugs:
+      - https://example/123456789/
+    data_reviews:
+      - http://example.com/path/to/data-review
+    expires: never
+
   hostname:
     type: string
     send_in_pings:

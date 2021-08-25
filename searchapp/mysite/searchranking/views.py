@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from uuid import uuid4
 import random
+from datetime import datetime
 from urllib.parse import urlparse
 
 from . import metrics, pings
@@ -136,5 +137,6 @@ def go_to_selection(request):
     metrics.search.preamble.set(session_data.get('preamble'))
     metrics.search.position.set(session_data.get('position'))
     metrics.search.selected.set(True)
+    metrics.search.url_select_timestamp.set(datetime.utcnow())
     pings.custom.submit()
     return redirect(session_data.get('url'))
