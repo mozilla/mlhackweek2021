@@ -140,6 +140,6 @@ def go_to_selection(request):
     metrics.search.position.set(session_data.get('position'))
     metrics.search.selected.set(True)
     metrics.search.url_select_timestamp.set(datetime.utcnow())
-    pings.custom.submit()
+    pings.action.submit()
     metrics.search.timespan_since_previous_link.start()
     return redirect(session_data.get('url'))

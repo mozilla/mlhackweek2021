@@ -19,7 +19,7 @@ search:
   search_engine:
     type: string
     send_in_pings:
-      - custom
+      - action
     description: |
       Submitted search term
     notification_emails:
@@ -32,7 +32,7 @@ search:
   search_text:
     type: string
     send_in_pings:
-      - custom
+      - action
     description: |
       Submitted search term
     notification_emails:
@@ -45,7 +45,7 @@ search:
   session_id:
     type: string
     send_in_pings:
-      - custom
+      - action
     description: |
       Session id
     notification_emails:
@@ -58,7 +58,7 @@ search:
   url:
     type: string
     send_in_pings:
-      - custom
+      - action
     description: |
       Selected search result
     notification_emails:
@@ -71,7 +71,7 @@ search:
   url_select_timestamp:
     type: datetime
     send_in_pings:
-      - custom
+      - action
     description: |
       Timestamp when user selected result
     notification_emails:
@@ -81,11 +81,10 @@ search:
     data_reviews:
       - http://example.com/path/to/data-review
     expires: never
-
   hostname:
     type: string
     send_in_pings:
-      - custom
+      - action
     description: |
       Hostname (domain) of selected search result
     notification_emails:
@@ -98,7 +97,7 @@ search:
   title:
     type: string
     send_in_pings:
-      - custom
+      - action
     description: |
       Search result title
     notification_emails:
@@ -111,7 +110,7 @@ search:
   short_description:
     type: string
     send_in_pings:
-      - custom
+      - action
     description: |
       Initial text of search result
     notification_emails:
@@ -124,7 +123,7 @@ search:
   preamble:
     type: string
     send_in_pings:
-      - custom
+      - action
     description: |
       Leading text of result (e.g. 'x days ago', '1 of 20')
     notification_emails:
@@ -137,7 +136,7 @@ search:
   selected:
     type: boolean
     send_in_pings:
-      - custom
+      - action
     description: |
       Indicates whether the URL was selected by user
     notification_emails:
@@ -150,7 +149,7 @@ search:
   position:
     type: quantity
     send_in_pings:
-      - custom
+      - action
     description: |
       Position in list of selected link
     notification_emails:
@@ -164,7 +163,7 @@ search:
   timespan_since_previous_link:
     type: timespan
     send_in_pings:
-      - custom
+      - action
     description: |
       Timespan between user selecting this URL and previous selection.  First selection contains no data for this field.
     notification_emails:
