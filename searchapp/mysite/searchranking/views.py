@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.contrib.sessions.models import Session
 import requests
 from bs4 import BeautifulSoup
 from uuid import uuid4
@@ -63,6 +64,7 @@ def execute_query(search_text):
         'Accept-Language': 'en-US,en;q=0.5',
         'Referer': 'https://www.google.com/'}
 
+    # TODO GLE may need to do more results to ensure we get 10 'good' results once limited by hostname.
     url = 'https://google.com/search?num=20&q=' + search_text
     request_result = requests.get(url, headers=headers_dict)
     soup = BeautifulSoup(request_result.text, "html.parser")
@@ -84,10 +86,14 @@ def results(request):
     # random.shuffle(search_results)
     results_context = []
     position = 0
+
+    # clear the session of previous results.
+    Session.objects.all().delete()
     for search_result in search_results:
         uuid = str(uuid4().hex)
         position += 1
         session_data = build_session_data(search_result, "Google", search_text)
+        # add the search results to the session.
         request.session[uuid] = session_data
 
         result_context = {
