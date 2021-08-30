@@ -16,12 +16,13 @@ $schema: moz://mozilla.org/schemas/glean/metrics/2-0-0
 
 # Category
 search:
+  # generic
   search_engine:
     type: string
     send_in_pings:
       - action
     description: |
-      Submitted search term
+      Search engine used
     notification_emails:
       - gleonard@mozilla.com
     bugs:
@@ -34,7 +35,7 @@ search:
     send_in_pings:
       - action
     description: |
-      Submitted search term
+      Submitted search text
     notification_emails:
       - gleonard@mozilla.com
     bugs:
@@ -55,25 +56,14 @@ search:
     data_reviews:
       - http://example.com/path/to/data-review
     expires: never
+
+  # selected
   url:
     type: string
     send_in_pings:
       - action
     description: |
-      Selected search result
-    notification_emails:
-      - gleonard@mozilla.com
-    bugs:
-      - https://example/123456789/
-    data_reviews:
-      - http://example.com/path/to/data-review
-    expires: never
-  url_select_timestamp:
-    type: datetime
-    send_in_pings:
-      - action
-    description: |
-      Timestamp when user selected result
+      Selected search result url
     notification_emails:
       - gleonard@mozilla.com
     bugs:
@@ -86,7 +76,7 @@ search:
     send_in_pings:
       - action
     description: |
-      Hostname (domain) of selected search result
+        Selected search result hostname (domain)
     notification_emails:
       - gleonard@mozilla.com
     bugs:
@@ -99,7 +89,7 @@ search:
     send_in_pings:
       - action
     description: |
-      Search result title
+      Selected search result title
     notification_emails:
       - gleonard@mozilla.com
     bugs:
@@ -113,6 +103,7 @@ search:
       - action
     description: |
       Initial text of search result
+      Selected search result short description
     notification_emails:
       - gleonard@mozilla.com
     bugs:
@@ -125,7 +116,7 @@ search:
     send_in_pings:
       - action
     description: |
-      Leading text of result (e.g. 'x days ago', '1 of 20')
+      Selected search result starting text (e.g. 'x days ago', '1 of 20')
     notification_emails:
       - gleonard@mozilla.com
     bugs:
@@ -133,6 +124,7 @@ search:
     data_reviews:
       - http://example.com/path/to/data-review
     expires: never
+  # implied?
   selected:
     type: boolean
     send_in_pings:
@@ -151,7 +143,7 @@ search:
     send_in_pings:
       - action
     description: |
-      Position in list of selected link
+      Selected search result position in list of results
     notification_emails:
       - gleonard@mozilla.com
     bugs:
@@ -160,12 +152,12 @@ search:
       - http://example.com/path/to/data-review
     expires: never
     unit: position in list
-  timespan_since_previous_link:
-    type: timespan
+  url_select_timestamp:
+    type: datetime
     send_in_pings:
       - action
     description: |
-      Timespan between user selecting this URL and previous selection.  First selection contains no data for this field.
+      Timestamp of selection action
     notification_emails:
       - gleonard@mozilla.com
     bugs:
@@ -173,3 +165,99 @@ search:
     data_reviews:
       - http://example.com/path/to/data-review
     expires: never
+  timespan_since_previous_link:
+    type: timespan
+    send_in_pings:
+      - action
+    description: |
+      Timespan between user selecting this URL and previous selection.
+      First selection contains no data for this field.
+    notification_emails:
+      - gleonard@mozilla.com
+    bugs:
+      - https://example/123456789/
+    data_reviews:
+      - http://example.com/path/to/data-review
+    expires: never
+
+  # unselected
+  unselected_url:
+    type: labeled_string
+    send_in_pings:
+      - action
+    description: |
+      Unselected search result url
+    notification_emails:
+      - gleonard@mozilla.com
+    bugs:
+      - https://example/123456789/
+    data_reviews:
+      - http://example.com/path/to/data-review
+    expires: never
+  unselected_hostname:
+    type: labeled_string
+    send_in_pings:
+      - action
+    description: |
+      Unselected search result hostname (domain)
+    notification_emails:
+      - gleonard@mozilla.com
+    bugs:
+      - https://example/123456789/
+    data_reviews:
+      - http://example.com/path/to/data-review
+    expires: never
+  unselected_title:
+    type: labeled_string
+    send_in_pings:
+      - action
+    description: |
+      Unselected search result title
+    notification_emails:
+      - gleonard@mozilla.com
+    bugs:
+      - https://example/123456789/
+    data_reviews:
+      - http://example.com/path/to/data-review
+    expires: never
+  unselected_short_description:
+    type: labeled_string
+    send_in_pings:
+      - action
+    description: |
+      Initial text of search result
+      Unselected search result short description
+    notification_emails:
+      - gleonard@mozilla.com
+    bugs:
+      - https://example/123456789/
+    data_reviews:
+      - http://example.com/path/to/data-review
+    expires: never
+  unselected_preamble:
+    type: labeled_string
+    send_in_pings:
+      - action
+    description: |
+      Unselected search result starting text (e.g. 'x days ago', '1 of 20')
+    notification_emails:
+      - gleonard@mozilla.com
+    bugs:
+      - https://example/123456789/
+    data_reviews:
+      - http://example.com/path/to/data-review
+    expires: never
+  unselected_position:
+    type: labeled_string
+    send_in_pings:
+      - action
+    description: |
+      Unselected search result position in list of results
+    notification_emails:
+      - gleonard@mozilla.com
+    bugs:
+      - https://example/123456789/
+    data_reviews:
+      - http://example.com/path/to/data-review
+    expires: never
+    unit: position in list
