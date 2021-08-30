@@ -3,7 +3,6 @@ from django.shortcuts import redirect
 import requests
 from bs4 import BeautifulSoup
 from uuid import uuid4
-import random
 from datetime import datetime
 from urllib.parse import urlparse
 
@@ -20,11 +19,11 @@ def exclude_sections(sections_to_exclude):
 
 class SearchResult():
     def __init__(self, url, hostname, title, short_desc, preamble, selected, position):
-        self.url = url.strip()
-        self.hostname = hostname
-        self.title = title.strip()
-        self.short_desc = short_desc.strip()
-        self.preamble = None if preamble is None else preamble.strip()
+        self.url = '' if url is None else url.strip()
+        self.hostname = '' if url is None else hostname.strip()
+        self.title = '' if title is None else title.strip()
+        self.short_desc = '' if short_desc is None else short_desc.strip()
+        self.preamble = '' if preamble is None else preamble.strip()
         self.selected = selected
         self.position = position
 
@@ -100,7 +99,6 @@ def results(request):
         }
         results_context.append(result_context)
     context = {"results": results_context}
-    metrics.search.timespan_since_previous_link.cancel()
     return render(request, 'searchranking/results.html', context)
 
 
@@ -125,21 +123,34 @@ def build_session_data(search_result, engine, search_text):
 
 
 def go_to_selection(request):
-    metrics.search.timespan_since_previous_link.stop()
     result_id = request.POST.get('result_id', None)
     session_data = request.session.get(result_id)
 
+    # 'global' values
     metrics.search.search_engine.set(session_data.get('engine'))
     metrics.search.search_text.set(session_data.get('search_text'))
     metrics.search.session_id.set(request.session.session_key)
-    metrics.search.url.set(session_data.get('url'))
-    metrics.search.hostname.set(session_data.get('hostname'))
-    metrics.search.title.set(session_data.get('title'))
-    metrics.search.short_description.set(session_data.get('short_desc'))
-    metrics.search.preamble.set(session_data.get('preamble'))
-    metrics.search.position.set(session_data.get('position'))
-    metrics.search.selected.set(True)
+
+    # 'selected result'
     metrics.search.url_select_timestamp.set(datetime.utcnow())
+
+    metrics.search.selection.record(metrics.search.SelectionExtra(url=session_data.get('url')))
+    metrics.search.selection.record(metrics.search.SelectionExtra(hostname=session_data.get('hostname')))
+    metrics.search.selection.record(metrics.search.SelectionExtra(title=session_data.get('title')))
+    metrics.search.selection.record(metrics.search.SelectionExtra(short_description=session_data.get('short_desc')))
+    metrics.search.selection.record(metrics.search.SelectionExtra(preamble=session_data.get('preamble', '')))
+    metrics.search.selection.record(metrics.search.SelectionExtra(position=session_data.get('position')))
+    metrics.search.selection.record(metrics.search.SelectionExtra(selected=True))
+
+    position = str(session_data.get('position'))
+    # for i in range(2):
+    #     unselected_pos = str(i)
+    #     metrics.search.unselected_url['unselected_' + unselected_pos].set("dummy_url" + unselected_pos)
+    #     metrics.search.unselected_hostname['unselected_' + unselected_pos].set("dummy_hostname" + unselected_pos)
+    #     metrics.search.unselected_title['unselected_' + unselected_pos].set("dummy_title" + unselected_pos)
+    #     metrics.search.unselected_short_description['unselected_' + unselected_pos].set("dummy_descr" + unselected_pos)
+    #     metrics.search.unselected_preamble['unselected_' + unselected_pos].set("dummy_pre" + unselected_pos)
+    #     metrics.search.unselected_position['unselected_' + unselected_pos].set(unselected_pos)
+
     pings.action.submit()
-    metrics.search.timespan_since_previous_link.start()
     return redirect(session_data.get('url'))
