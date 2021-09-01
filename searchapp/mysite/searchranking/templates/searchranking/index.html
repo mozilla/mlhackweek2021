@@ -37,7 +37,9 @@
     <div class="alert">{{ errorMsg }}</div>
     {% endif %}
     <h1>Mozilla Search App</h1>
-
+    <p style="color:red;margin-left: 40px;font-size: 1.875em">
+    ** Submitted search terms, session id, unselected and selected results will be stored in the BigQuery instance accessible by Mozilla employees. **
+    </p>
     <form action="{% url 'searchranking:results'%}" method="get">
     {% csrf_token %}
     <input type="text" id="search_text" name="search_text"/>
