@@ -148,15 +148,18 @@ def go_to_selection(request):
     metrics.search.selection.record(metrics.search.SelectionExtra(position=session_data.get('position')))
     metrics.search.selection.record(metrics.search.SelectionExtra(selected=True))
 
-    position = str(session_data.get('position'))
-    # for i in range(2):
-    #     unselected_pos = str(i)
-    #     metrics.search.unselected_url['unselected_' + unselected_pos].set("dummy_url" + unselected_pos)
-    #     metrics.search.unselected_hostname['unselected_' + unselected_pos].set("dummy_hostname" + unselected_pos)
-    #     metrics.search.unselected_title['unselected_' + unselected_pos].set("dummy_title" + unselected_pos)
-    #     metrics.search.unselected_short_description['unselected_' + unselected_pos].set("dummy_descr" + unselected_pos)
-    #     metrics.search.unselected_preamble['unselected_' + unselected_pos].set("dummy_pre" + unselected_pos)
-    #     metrics.search.unselected_position['unselected_' + unselected_pos].set(unselected_pos)
+    # Add unselected results
+    for key, value in request.session.items():
+        print('{} => {}'.format(key, value))
+        if key == result_id:
+            continue
+        unselected_pos = str(value.get('position'))
+        metrics.search.unselected_url['unselected_' + unselected_pos].set(value.get('url'))
+        metrics.search.unselected_hostname['unselected_' + unselected_pos].set(value.get('hostname'))
+        metrics.search.unselected_title['unselected_' + unselected_pos].set(value.get('title'))
+        metrics.search.unselected_short_description['unselected_' + unselected_pos].set(value.get('short_desc'))
+        metrics.search.unselected_preamble['unselected_' + unselected_pos].set(value.get('preamble'))
+        metrics.search.unselected_position['unselected_' + unselected_pos].set(unselected_pos)
 
     pings.action.submit()
     return redirect(session_data.get('url'))
