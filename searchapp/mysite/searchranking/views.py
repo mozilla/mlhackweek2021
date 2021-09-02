@@ -7,7 +7,7 @@ from uuid import uuid4
 from datetime import datetime
 from urllib.parse import urlparse
 
-from . import metrics, pings
+from . import metrics, pings, domains
 
 
 def index(request):
@@ -40,19 +40,25 @@ def parse_results(soup):
         if href is not None:
             href = href.replace('/url?q=', '')
             hostname = urlparse(href).netloc
-            short_desc = ''
-            preamble = None
-            if info.parent.parent.find_next_sibling("div"):
-                divs = info.parent.parent.find_next_sibling("div").find("div")
-                if divs:
-                    spans = divs.find_all("span")
-                    for span in spans:
-                        if preamble is None:  # preamble is the first span
-                            preamble = span.text
-                        short_desc += span.text
-            result.append(
-                SearchResult(url=href, hostname=hostname, title=title, short_desc=short_desc, preamble=preamble,
-                             selected=True, position=len(result) + 1))
+            # only if the domain is contained in the domains list will it be included in the results.
+            matched = len([s for s in domains if s in hostname]) > 0
+            if matched:
+                short_desc = ''
+                preamble = None
+                if info.parent.parent.find_next_sibling("div"):
+                    divs = info.parent.parent.find_next_sibling("div").find("div")
+                    if divs:
+                        spans = divs.find_all("span")
+                        for span in spans:
+                            if preamble is None:  # preamble is the first span
+                                preamble = span.text
+                            short_desc += span.text
+                result.append(
+                    SearchResult(url=href, hostname=hostname, title=title, short_desc=short_desc, preamble=preamble,
+                                 selected=True, position=len(result) + 1))
+    if len(result) > 10:
+        print(f"{len(result)} results found, reducing to 10.")
+        result = result[:10]
     return result
 
 
@@ -64,8 +70,7 @@ def execute_query(search_text):
         'Accept-Language': 'en-US,en;q=0.5',
         'Referer': 'https://www.google.com/'}
 
-    # TODO GLE may need to do more results to ensure we get 10 'good' results once limited by hostname.
-    url = 'https://google.com/search?num=20&q=' + search_text
+    url = 'https://google.com/search?num=200&q=' + search_text
     request_result = requests.get(url, headers=headers_dict)
     soup = BeautifulSoup(request_result.text, "html.parser")
     return parse_results(soup)

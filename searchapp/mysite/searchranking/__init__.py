@@ -17,3 +17,9 @@ Glean.initialize(
     upload_enabled=True,
     data_dir=Path(__file__).parent  # TODO GLE verify what this should be
 )
+
+domains_filename = Path(__file__).parent / "domains.txt"
+domains_file = open(domains_filename, "r")
+domains = domains_file.read().splitlines()
+domains_file.close()
+print(f"Using domains: {domains}")
