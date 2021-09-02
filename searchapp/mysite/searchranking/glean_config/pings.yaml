@@ -21,6 +21,6 @@ action:
   notification_emails:
     - gleonard@mozilla.com
   bugs:
-    - https://example/123456789/
+    - https://github.com/mozilla/mlhackweek2021/issues/1
   data_reviews:
-    - http://example.com/path/to/data-review
+    - https://github.com/mozilla/mlhackweek2021/issues/1
