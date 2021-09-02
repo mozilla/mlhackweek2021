@@ -16,3 +16,4 @@ wikipedia
 rust-lang
 python
 medium
+mozilla
