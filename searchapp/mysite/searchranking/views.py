@@ -140,26 +140,20 @@ def go_to_selection(request):
     # 'selected result'
     metrics.search.url_select_timestamp.set(datetime.utcnow())
 
-    metrics.search.selection.record(metrics.search.SelectionExtra(url=session_data.get('url')))
-    metrics.search.selection.record(metrics.search.SelectionExtra(hostname=session_data.get('hostname')))
-    metrics.search.selection.record(metrics.search.SelectionExtra(title=session_data.get('title')))
-    metrics.search.selection.record(metrics.search.SelectionExtra(short_description=session_data.get('short_desc')))
-    metrics.search.selection.record(metrics.search.SelectionExtra(preamble=session_data.get('preamble', '')))
-    metrics.search.selection.record(metrics.search.SelectionExtra(position=session_data.get('position')))
-    metrics.search.selection.record(metrics.search.SelectionExtra(selected=True))
-
-    # Add unselected results
+    # Add search results
     for key, value in request.session.items():
-        print('{} => {}'.format(key, value))
+        pos = str(value.get('position'))
+        metrics.search.url['url_' + pos].set(value.get('url'))
+        metrics.search.hostname['hostname_' + pos].set(value.get('hostname'))
+        metrics.search.title['title_' + pos].set(value.get('title'))
+        metrics.search.short_description['short_desc_' + pos].set(value.get('short_desc'))
+        metrics.search.preamble['preamble_' + pos].set(value.get('preamble'))
+        metrics.search.position['position_' + pos].add(int(pos))
+
         if key == result_id:
-            continue
-        unselected_pos = str(value.get('position'))
-        metrics.search.unselected_url['unselected_' + unselected_pos].set(value.get('url'))
-        metrics.search.unselected_hostname['unselected_' + unselected_pos].set(value.get('hostname'))
-        metrics.search.unselected_title['unselected_' + unselected_pos].set(value.get('title'))
-        metrics.search.unselected_short_description['unselected_' + unselected_pos].set(value.get('short_desc'))
-        metrics.search.unselected_preamble['unselected_' + unselected_pos].set(value.get('preamble'))
-        metrics.search.unselected_position['unselected_' + unselected_pos].set(unselected_pos)
+            metrics.search.selected['selected_' + pos].set(True)
+        else:
+            metrics.search.selected['selected_' + pos].set(False)
 
     pings.action.submit()
     return redirect(session_data.get('url'))

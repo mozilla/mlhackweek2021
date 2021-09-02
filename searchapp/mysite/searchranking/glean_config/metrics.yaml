@@ -26,9 +26,9 @@ search:
     notification_emails:
       - gleonard@mozilla.com
     bugs:
-      - https://example/123456789/
+      - https://github.com/mozilla/mlhackweek2021/issues/1
     data_reviews:
-      - http://example.com/path/to/data-review
+      - https://github.com/mozilla/mlhackweek2021/issues/1
     expires: never
   search_text:
     type: string
@@ -39,9 +39,9 @@ search:
     notification_emails:
       - gleonard@mozilla.com
     bugs:
-      - https://example/123456789/
+      - https://github.com/mozilla/mlhackweek2021/issues/1
     data_reviews:
-      - http://example.com/path/to/data-review
+      - https://github.com/mozilla/mlhackweek2021/issues/1
     expires: never
   session_id:
     type: string
@@ -52,55 +52,11 @@ search:
     notification_emails:
       - gleonard@mozilla.com
     bugs:
-      - https://example/123456789/
+      - https://github.com/mozilla/mlhackweek2021/issues/1
     data_reviews:
-      - http://example.com/path/to/data-review
+      - https://github.com/mozilla/mlhackweek2021/issues/1
     expires: never
 
-  # selected
-  selection:
-    type: event
-    description: |
-      Captures user result selection.
-    notification_emails:
-      - gleonard@mozilla.com
-    bugs:
-      - https://example/123456789/
-    data_reviews:
-      - http://example.com/path/to/data-review
-    send_in_pings:
-      - action
-    expires: never
-    extra_keys:
-      url:
-        description: |
-          Selected search result url
-        type: string
-      hostname:
-        type: string
-        description: |
-          Selected search result hostname (domain)
-      title:
-        type: string
-        description: |
-          Selected search result title
-      short_description:
-        type: string
-        description: |
-          Initial text of search result
-          Selected search result short description
-      preamble:
-        type: string
-        description: |
-          Selected search result starting text (e.g. 'x days ago', '1 of 20')
-      selected:
-        type: boolean  # may not be needed, event type implies this.
-        description: |
-          Indicates whether the URL was selected by user
-      position:
-        type: quantity
-        description: |
-          Selected search result position in list of results
   url_select_timestamp:
     type: datetime
     send_in_pings:
@@ -110,89 +66,101 @@ search:
     notification_emails:
       - gleonard@mozilla.com
     bugs:
-      - https://example/123456789/
+      - https://github.com/mozilla/mlhackweek2021/issues/1
     data_reviews:
-      - http://example.com/path/to/data-review
+      - https://github.com/mozilla/mlhackweek2021/issues/1
     expires: never
 
-  # unselected
-  unselected_url:
+  # search results
+  url:
     type: labeled_string
     send_in_pings:
       - action
     description: |
-      Unselected search result url
+      Search result url
     notification_emails:
       - gleonard@mozilla.com
     bugs:
-      - https://example/123456789/
+      - https://github.com/mozilla/mlhackweek2021/issues/1
     data_reviews:
-      - http://example.com/path/to/data-review
+      - https://github.com/mozilla/mlhackweek2021/issues/1
     expires: never
-  unselected_hostname:
+  hostname:
     type: labeled_string
     send_in_pings:
       - action
     description: |
-      Unselected search result hostname (domain)
+      Search result hostname (domain)
     notification_emails:
       - gleonard@mozilla.com
     bugs:
-      - https://example/123456789/
+      - https://github.com/mozilla/mlhackweek2021/issues/1
     data_reviews:
-      - http://example.com/path/to/data-review
+      - https://github.com/mozilla/mlhackweek2021/issues/1
     expires: never
-  unselected_title:
+  title:
     type: labeled_string
     send_in_pings:
       - action
     description: |
-      Unselected search result title
+      Search result title
     notification_emails:
       - gleonard@mozilla.com
     bugs:
-      - https://example/123456789/
+      - https://github.com/mozilla/mlhackweek2021/issues/1
     data_reviews:
-      - http://example.com/path/to/data-review
+      - https://github.com/mozilla/mlhackweek2021/issues/1
     expires: never
-  unselected_short_description:
+  short_description:
     type: labeled_string
     send_in_pings:
       - action
     description: |
       Initial text of search result
-      Unselected search result short description
+      Search result short description
     notification_emails:
       - gleonard@mozilla.com
     bugs:
-      - https://example/123456789/
+      - https://github.com/mozilla/mlhackweek2021/issues/1
     data_reviews:
-      - http://example.com/path/to/data-review
+      - https://github.com/mozilla/mlhackweek2021/issues/1
     expires: never
-  unselected_preamble:
+  preamble:
     type: labeled_string
     send_in_pings:
       - action
     description: |
-      Unselected search result starting text (e.g. 'x days ago', '1 of 20')
+      Search result starting text (e.g. 'x days ago', '1 of 20')
     notification_emails:
       - gleonard@mozilla.com
     bugs:
-      - https://example/123456789/
+      - https://github.com/mozilla/mlhackweek2021/issues/1
     data_reviews:
-      - http://example.com/path/to/data-review
+      - https://github.com/mozilla/mlhackweek2021/issues/1
     expires: never
-  unselected_position:
-    type: labeled_string
+  position:
+    type: labeled_counter
     send_in_pings:
       - action
     description: |
-      Unselected search result position in list of results
+      Search result position in list of results
     notification_emails:
       - gleonard@mozilla.com
     bugs:
-      - https://example/123456789/
+      - https://github.com/mozilla/mlhackweek2021/issues/1
     data_reviews:
-      - http://example.com/path/to/data-review
+      - https://github.com/mozilla/mlhackweek2021/issues/1
     expires: never
-    unit: position in list
+  selected:
+    type: labeled_boolean
+    send_in_pings:
+      - action
+    description: |
+      Indicates whether the URL was selected by user
+    notification_emails:
+      - gleonard@mozilla.com
+    bugs:
+      - https://github.com/mozilla/mlhackweek2021/issues/1
+    data_reviews:
+      - https://github.com/mozilla/mlhackweek2021/issues/1
+    expires: never
