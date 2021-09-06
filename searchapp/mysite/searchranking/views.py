@@ -87,13 +87,14 @@ def results(request):
         return render(request, 'searchranking/index.html', context)
 
     search_results = execute_query(search_text)
-    # TODO GLE is shuffle needed.  If shuffled will need to reset position field
-    # random.shuffle(search_results)
     results_context = []
     position = 0
 
     # clear the session of previous results.
-    Session.objects.all().delete()
+    session_keys = list(request.session.keys())
+    for key in session_keys:
+        del request.session[key]
+
     for search_result in search_results:
         uuid = str(uuid4().hex)
         position += 1
