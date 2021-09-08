@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import environ
 
-ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
+ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent
 env = environ.Env()
 env.read_env(str(ROOT_DIR / ".env"))
 
@@ -28,10 +28,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
-
+# This is a prod URL, it must match the service setting in app.yaml (ideally split between local & prod settings)
+ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "hackweeksearch-dot-srg-team-sandbox.uc.r.appspot.com"]
 
 # Application definition
 
