@@ -14,7 +14,7 @@ The application can be run from the project or build and run a docker image.
 5. Go to `http://127.0.0.1:<port>/` to use the app.
 6. Once a search is performed **and a result selected**, the ping will be listed in the debug view (https://debug-ping-preview.firebaseapp.com/)
 
-### Install and Run
+### Non Docker
 To run the application:
 1. `cd ./searchapp`
 2. Create a file named `.env` and add `export DJANGO_SECRET_KEY=<key>`
