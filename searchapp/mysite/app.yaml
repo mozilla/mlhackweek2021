@@ -14,6 +14,6 @@ resources:
 runtime_config:
   python_version: 3
 
-env_variables:
-  GLEAN_LOG_PINGS: true
-  GLEAN_DEBUG_VIEW_TAG: "mlhackweek-search"
+#env_variables:
+#  GLEAN_LOG_PINGS: true
+#  GLEAN_DEBUG_VIEW_TAG: "mlhackweek-search"
