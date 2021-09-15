@@ -38,7 +38,7 @@
     {% endif %}
     <h1>Mozilla Search App</h1>
     <p style="color:red;margin-left: 40px;font-size: 1.875em">
-    ** Submitted search terms, session id, unselected and selected results will be stored in the BigQuery instance accessible by Mozilla employees. **
+    ** By using this application, we will collect your search query, full search results, and the search result you clicked on; and it will only be collected when you are using this application (i.e., not when you're browsing in Firefox otherwise). This data will not be associated with your name, email address, or other personal information. We will use this data for building and iterating over a series of machine learning models and to get a deeper understanding of the data work surrounding machine learning given our current tooling. It will be deleted after 12 months. **
     </p>
     <form action="{% url 'searchranking:results'%}" method="get">
     {% csrf_token %}
