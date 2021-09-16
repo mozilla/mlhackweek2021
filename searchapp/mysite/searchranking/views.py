@@ -139,27 +139,27 @@ def go_to_selection(request):
     session_data = request.session.get(result_id)
 
     # 'global' values
-    metrics.search.search_engine.set(session_data.get('engine'))
-    metrics.search.search_text.set(session_data.get('search_text'))
-    metrics.search.session_id.set(request.session.session_key)
+    metrics.search.meta.search_engine.set(session_data.get('engine'))
+    metrics.search.meta.search_text.set(session_data.get('search_text'))
+    metrics.search.meta.session_id.set(request.session.session_key)
 
     # 'selected result'
-    metrics.search.url_select_timestamp.set(datetime.utcnow())
+    metrics.search.meta.url_select_timestamp.set(datetime.utcnow())
 
     # Add search results
     for key, value in request.session.items():
         pos = str(value.get('position'))
-        metrics.search.url['url_' + pos].set(value.get('url'))
-        metrics.search.hostname['hostname_' + pos].set(value.get('hostname'))
-        metrics.search.title['title_' + pos].set(value.get('title'))
-        metrics.search.short_description['short_desc_' + pos].set(value.get('short_desc'))
-        metrics.search.preamble['preamble_' + pos].set(value.get('preamble'))
-        metrics.search.position['position_' + pos].add(int(pos))
+        metrics.search.meta.url['url_' + pos].set(value.get('url'))
+        metrics.search.meta.hostname['hostname_' + pos].set(value.get('hostname'))
+        metrics.search.meta.title['title_' + pos].set(value.get('title'))
+        metrics.search.meta.short_description['short_desc_' + pos].set(value.get('short_desc'))
+        metrics.search.meta.preamble['preamble_' + pos].set(value.get('preamble'))
+        metrics.search.meta.position['position_' + pos].add(int(pos))
 
         if key == result_id:
-            metrics.search.selected['selected_' + pos].set(True)
+            metrics.search.meta.selected['selected_' + pos].set(True)
         else:
-            metrics.search.selected['selected_' + pos].set(False)
+            metrics.search.meta.selected['selected_' + pos].set(False)
 
     pings.action.submit()
     return redirect(session_data.get('url'))
