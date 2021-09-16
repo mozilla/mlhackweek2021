@@ -15,7 +15,7 @@
 $schema: moz://mozilla.org/schemas/glean/metrics/2-0-0
 
 # Category
-search:
+search.meta:
   # generic
   search_engine:
     type: string
