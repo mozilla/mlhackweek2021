@@ -1,2 +1,5 @@
 /searchapp/.env
 /searchapp/.idea
+notebooks/.ipynb_checkpoints/tensorflow_io-checkpoint.ipynb
+notebooks/.ipynb_checkpoints/prepare_ds_from_bq-checkpoint.ipynb
+notebooks/.ipynb_checkpoints/tf_io_bigquery-checkpoint.ipynb
