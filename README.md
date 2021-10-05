@@ -5,7 +5,7 @@
 2. `python setup.py sdist --formats=gztar`
 3. For manual deployment follow instructions https://cloud.google.com/vertex-ai/docs/training/create-custom-job
 
-## Search App
+## Search WebApp
 The intent is to collect search data and train a ranking model.
 The application can be run from the project or build and run a docker image.
 ### Docker
