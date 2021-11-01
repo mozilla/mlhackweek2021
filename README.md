@@ -2,7 +2,7 @@
 
 ## Search WebApp
 The intent is to collect search data and train a ranking model.
-The application can be run from the project or build and run a docker image.
+The application can be run from the project, build and run a docker image or dpeloy to Google App Engine
 ### Docker
 1. `cd ./searchapp/mysite`
 2. Create a file named `.env` and add `export DJANGO_SECRET_KEY=<key>`
