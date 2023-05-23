@@ -4,4 +4,4 @@ django==3.2.6
 django-environ==0.4.5
 glean-sdk==40.0.0
 gunicorn==20.1.0
-requests==2.26.0
+requests==2.31.0
